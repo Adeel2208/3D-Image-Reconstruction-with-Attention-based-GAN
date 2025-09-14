@@ -1,0 +1,56 @@
+# Dataset settings
+data:
+  image_folder: "/kaggle/working/dataset_for_3D_reconstruction/image"
+  mask_folder: "/kaggle/working/dataset_for_3D_reconstruction/mask"
+  augment: true
+  transform:
+    resize: 256
+    to_tensor: true
+
+# Training settings
+training:
+  num_epochs: 11
+  batch_size: 4
+  num_workers: 2
+  checkpoint_interval: 20
+  checkpoint_dir: "/kaggle/working/dataset"
+
+# Model settings
+model:
+  generator:
+    in_channels: 3
+    out_channels: 3
+    features: [64, 128, 256, 512]
+    window_sizes: [32, 16, 8, 8]
+    num_heads: [2, 4, 8, 8]
+    depths: [2, 2, 2, 2]
+  discriminator:
+    in_channels: 3
+    features: [64, 128, 256, 512]
+
+# Loss weights
+loss_weights:
+  lambda_rec: 100
+  lambda_perc: 10
+  lambda_adv: 1
+  lambda_gp: 10
+  lambda_edge: 20
+  lambda_ms_ssim: 25
+  lambda_freq: 10
+
+# Optimizer settings
+optimizer:
+  generator:
+    lr: 0.0002
+    betas: [0.9, 0.999]
+    weight_decay: 0.001
+  discriminator:
+    lr: 0.0004
+    betas: [0.9, 0.999]
+    weight_decay: 0.001
+
+# Scheduler settings
+scheduler:
+  factor: 0.5
+  patience: 10
+  verbose: true
